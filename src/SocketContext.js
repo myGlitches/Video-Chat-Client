@@ -5,7 +5,7 @@ import Peer from 'simple-peer'
 
 const SocketContext = createContext()
 
-const socket = io(`https://gremlin-video-chat-test-app.herokuapp.com/`);
+const socket = io(`https://test-for-videochat.herokuapp.com/`);
 
 const ContextProvider = ({children}) => {
     const [stream, setStream] = useState(null)
@@ -26,7 +26,10 @@ const ContextProvider = ({children}) => {
             myVideo.current.srcObject = currentStream
         })
 
-        socket.on('self', (id) => setSelf(id))
+        socket.on('self', (id) => {
+            setSelf(id)
+            console.log({id})
+        })
 
         socket.on('callUser', ({from, name: callerName, signal}) => {
             setCall({isReceivingCall: true, from, name: callerName, signal})
